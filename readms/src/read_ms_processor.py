@@ -255,7 +255,7 @@ class read_ms_processor:
 
 if __name__ == '__main__':
 	if len(sys.argv) < 3:
-		print("./readme.py old_version/new_version ms_dat_file")
+		print("./read_ms_processor.py old_version/new_version ms_dat_file")
 		sys.exit()
 	else:
 		version=sys.argv[1]
