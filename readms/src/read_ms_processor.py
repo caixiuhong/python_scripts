@@ -262,12 +262,14 @@ if __name__ == '__main__':
 		file=sys.argv[2]
 
 	#read microstates
-	if version_ms_dat == 'old_version':
-		read_old_ms(file_path=file)
-	elif version_ms_dat == 'new_version':
-		read_ms(file_path= file)
+	read_ms_processor= read_ms_processor()
+	if version == 'old_version':
+		ms_states = read_ms_processor.read_old_ms(file_path=file)
+	elif version ==  'new_version':
+		ms_states = read_ms_processor.read_ms(file_path= file)
 	else: 
-		read_re_ms(file_path=file)
+		ms_states = read_ms_processor.read_re_ms(file_path=file)
+	print("Microstate movements: {0}".format(len(ms_states)))
 	
 
 
