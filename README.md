@@ -14,5 +14,6 @@ $ python readms/src/read_ms_processor.py old_version ../example/old_ms.dat
 ```
 because old_ms.dat is too large, it is not included in readms/example, please add by yourself.
 
-Import as a module
-see example/tutorial.ipynb for instruction
+Readme module can be import as a python module
+
+Please see example/tutorial.ipynb for instruction
