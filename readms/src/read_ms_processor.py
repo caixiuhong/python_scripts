@@ -169,12 +169,15 @@ class read_ms_processor:
 				byte=f.read(2)
 		return self.ms_states
 
-	def read_old_ms(self, file_path='ms.dat'):
+	def read_old_ms(self, file_path='ms.dat', *args, **kwargs):
 		'''
 		read ms.dat file, a binary file of microstate file, into ms_states
 		input: ms.dat, format version: (/home/cai/mcce3.5)
 		output: ms_state, a list
 		'''
+		ms_start=kwargs.get("ms_start",None)
+		ms_end=kwargs.get("ms_end", None)
+
 	
 		with open(file_path, "rb") as f:
 			#read head3.lst, to read information for each conformer
@@ -198,7 +201,13 @@ class read_ms_processor:
 			self.enum_flag=0  #only for monte carlo sampling method
 		
 			#read information for each microstate
-			count=0
+			#bytes for each microstates
+			ms_bytes=2*n_spe+8+8+4+self.enum_flag*4
+			if ms_start and ms_end: 
+				f.seek(ms_start*ms_bytes,1)   #move to the offset postion in the file to read microstate
+				count = ms_start 
+			else:
+				count=0
 			byte = f.read(2)
 			while byte:
 				ms_state =MSRECORD()
@@ -246,7 +255,9 @@ class read_ms_processor:
 						ms_state.confidseq.append(confid)
 				count += 1
 				self.ms_states.append(ms_state)
-			
+				#check
+				if ms_end and count > ms_end: break
+
 				#read next microstate first conformer id
 				byte=f.read(2)
 		return self.ms_states
